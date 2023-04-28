@@ -53,7 +53,7 @@ public class JwtTokenProvider {
         try {
             Jws<Claims> jws = Jwts.parserBuilder().setSigningKey(key)
                 .build().parseClaimsJws(token);
-            return jws.getBody().getExpiration().before(new Date());
+            return jws.getBody().getExpiration().after(new Date());
         } catch(SecurityException | MalformedJwtException e) {
             log.info("JWT 서명이 잘못되었습니다.");
         } catch(IllegalArgumentException e) {

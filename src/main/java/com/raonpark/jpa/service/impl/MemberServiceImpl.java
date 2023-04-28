@@ -1,6 +1,9 @@
 package com.raonpark.jpa.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.raonpark.jpa.dto.LoginDTO;
@@ -11,18 +14,32 @@ import com.raonpark.jpa.service.MemberService;
 
 @Service("memberService")
 public class MemberServiceImpl implements MemberService {
-    @Autowired
     private MemberRepository memberRepository;
+    private JwtTokenProvider jwtTokenProvider;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    public MemberServiceImpl(MemberRepository memberRepository, JwtTokenProvider jwtTokenProvider, PasswordEncoder passwordEncoder) {
+        this.memberRepository = memberRepository;
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public String login(LoginDTO loginInfo) {
-        Member member = memberRepository.findByEmailAndPassword(loginInfo.getEmail(), loginInfo.getPassword());
+        String email = loginInfo.getEmail();
+
+        Optional<Member> member = memberRepository.findByEmail(email);
         
-        if(member != null) {
-            return jwtTokenProvider.generateToken(member);
+        if(!member.isPresent()) {
+            return "";
+        }
+
+        String rawPassword = loginInfo.getPassword();
+        String encodedPassword = member.get().getPassword();
+
+        if(passwordEncoder.matches(rawPassword, encodedPassword)) {
+            return jwtTokenProvider.generateToken(member.get());
         }
         
         return "";
@@ -30,6 +47,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void register(Member member) {
+        String password = member.getPassword();
+        String encodedPassword = passwordEncoder.encode(password);
+        member.setPassword(encodedPassword);
+
         memberRepository.save(member);
     }
 }

@@ -5,11 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.sql.Date;
 import java.time.LocalDate;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.raonpark.jpa.dto.LoginDTO;
 import com.raonpark.jpa.entity.member.GeneralUser;
@@ -19,14 +20,22 @@ import com.raonpark.jpa.service.impl.MemberServiceImpl;
 
 @SpringBootTest
 public class MemberServiceTest {
-    @Mock
+    @Autowired
     private MemberRepository memberRepository;
 
-    @InjectMocks
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     private MemberServiceImpl memberService;
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    @BeforeEach
+    void setUp() {
+        this.passwordEncoder = new BCryptPasswordEncoder();
+        memberService = new MemberServiceImpl(memberRepository, jwtTokenProvider, passwordEncoder);
+    }
 
 
     @Test
