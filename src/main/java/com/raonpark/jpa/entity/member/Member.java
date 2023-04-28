@@ -1,10 +1,12 @@
 package com.raonpark.jpa.entity.member;
 
-import java.sql.Date;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
@@ -33,6 +35,8 @@ public class Member {
     @NonNull
     private String address;
 
+    private String username;
+
     @NonNull
     private String password;
 
@@ -45,4 +49,7 @@ public class Member {
     
     @NonNull
     private String IP_address;
+
+    @Enumerated(EnumType.STRING)
+    private MemberType memberType;
 }

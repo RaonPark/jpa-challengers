@@ -1,17 +1,21 @@
 package com.raonpark.jpa.entity.product;
 
-import java.sql.Date;
+import java.util.Date;
 
 import io.micrometer.common.lang.NonNull;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import lombok.Data;
 
 @Entity
-public class Product {
+@Data
+public class Products {
     @Id @GeneratedValue
+    @Column(name = "PRODUCTS_ID")
     private Long id;
 
     @NonNull
