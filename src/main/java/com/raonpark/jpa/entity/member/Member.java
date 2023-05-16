@@ -1,16 +1,19 @@
 package com.raonpark.jpa.entity.member;
 
-import java.sql.Date;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,10 +31,14 @@ public class Member {
     private Long id;
 
     @NonNull
+    @Email
     private String email;
 
     @NonNull
     private String address;
+
+    @NonNull
+    private String username;
 
     @NonNull
     private String password;
@@ -45,4 +52,7 @@ public class Member {
     
     @NonNull
     private String IP_address;
+
+    @Enumerated(EnumType.STRING)
+    private MemberType memberType;
 }

@@ -1,28 +1,27 @@
 package com.raonpark.jpa.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.raonpark.jpa.entity.member.GeneralUser;
 import com.raonpark.jpa.entity.member.Member;
-import com.raonpark.jpa.entity.member.User;
 
 @SpringBootTest
 public class MemberRepositoryTest {
-    @Mock
+    @Autowired
     private MemberRepository memberRepository;
 
     @Test
     public void memberTest() {
         // given
-        User user = new User();
+        GeneralUser user = new GeneralUser();
         user.setId(1L);
         user.setPassword("abcdefg123");
         user.setEmail("hello@abc.net");
@@ -37,7 +36,6 @@ public class MemberRepositoryTest {
         Optional<Member> resultUser = memberRepository.findById(1L);
 
         // then
-        assertTrue((resultUser.get() instanceof User) ? true : false, "hello");
         assertEquals(resultUser.get().getEmail(), "hello@abc.net");
     }
 }
