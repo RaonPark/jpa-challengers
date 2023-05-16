@@ -21,7 +21,7 @@ public class Shipments {
     private Long id;
 
     @OneToOne(mappedBy = "shipments")
-    private Orders orders;
+    private Order orders;
 
     @Enumerated(EnumType.STRING)
     private ShipmentStatus shipmentStatus;

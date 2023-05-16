@@ -13,6 +13,7 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,11 +31,13 @@ public class Member {
     private Long id;
 
     @NonNull
+    @Email
     private String email;
 
     @NonNull
     private String address;
 
+    @NonNull
     private String username;
 
     @NonNull

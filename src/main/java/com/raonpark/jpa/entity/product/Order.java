@@ -1,5 +1,6 @@
 package com.raonpark.jpa.entity.product;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Data;
@@ -22,7 +24,8 @@ import lombok.NonNull;
 
 @Entity
 @Data
-public class Orders {
+@Table(name = "ORDERS")
+public class Order {
     @Id @GeneratedValue
     @Column(name = "ORDERS_ID")
     private Long id;
@@ -34,9 +37,8 @@ public class Orders {
     @Temporal(TemporalType.TIME)
     private Date orderdDate;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PRODUCTS_ID")
-    private List<Products> products;
+    @OneToMany(mappedBy = "order")
+    private List<Product> products = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "SHIPMENTS_ID")

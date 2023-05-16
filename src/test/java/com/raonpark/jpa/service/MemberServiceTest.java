@@ -26,6 +26,8 @@ public class MemberServiceTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // 나머지를 Mock으로 하고 InjectMocks를 사용하면 PasswordEncoder가 실제로 동작하지
+    // 않으므로 password.encode()가 null을 반환하게 된다. 따라서 꼭 생성자로 객체로 만들자.
     private MemberServiceImpl memberService;
 
     @Autowired
@@ -37,13 +39,12 @@ public class MemberServiceTest {
         memberService = new MemberServiceImpl(memberRepository, jwtTokenProvider, passwordEncoder);
     }
 
-
     @Test
     public void 로그인테스트() {
         // given
         GeneralUser user = new GeneralUser();
         user.setId(1L);
-        user.setPassword("abcdefg123");
+        user.setPassword("Abcdefg123!");
         user.setEmail("hello@abc.net");
         user.setBirthDay(Date.valueOf("1997-11-31"));
         user.setCreatedDate(Date.valueOf(LocalDate.now()));
@@ -53,7 +54,7 @@ public class MemberServiceTest {
 
         LoginDTO loginDTO = new LoginDTO();
         loginDTO.setEmail("hello@abc.net");
-        loginDTO.setPassword("abcdefg123");
+        loginDTO.setPassword("Abcdefg123!");
 
         // when
         memberService.register(user);

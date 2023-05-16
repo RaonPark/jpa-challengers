@@ -1,10 +1,11 @@
 package com.raonpark.jpa.entity.member;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.raonpark.jpa.entity.product.Orders;
+import com.raonpark.jpa.entity.product.Order;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -21,9 +22,9 @@ import lombok.NonNull;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class GeneralUser extends Member {
+public class GeneralUser extends Member implements Serializable {
     @OneToMany(mappedBy = "member")
-    private List<Orders> orders = new ArrayList<>();
+    private List<Order> orders = new ArrayList<>();
 
     @NonNull
     @Temporal(TemporalType.DATE)
