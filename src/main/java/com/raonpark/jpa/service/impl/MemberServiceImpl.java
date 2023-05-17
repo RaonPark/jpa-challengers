@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.raonpark.jpa.dto.LoginDTO;
 import com.raonpark.jpa.entity.member.Member;
@@ -13,6 +14,7 @@ import com.raonpark.jpa.repository.MemberRepository;
 import com.raonpark.jpa.service.MemberService;
 
 @Service("memberService")
+@Transactional
 public class MemberServiceImpl implements MemberService {
     private MemberRepository memberRepository;
     private JwtTokenProvider jwtTokenProvider;

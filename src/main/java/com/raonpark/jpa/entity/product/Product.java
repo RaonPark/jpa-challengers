@@ -1,9 +1,11 @@
 package com.raonpark.jpa.entity.product;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import com.raonpark.jpa.entity.member.Seller;
 
@@ -19,10 +21,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "PRODUCTS")
 public class Product implements Serializable {
     @Id @GeneratedValue
@@ -45,7 +51,36 @@ public class Product implements Serializable {
     @JoinColumn(name = "ORDERS_ID")
     private Order order;
 
-    public boolean equals(Product product) {
-        return (this.name == product.name) && (this.price == product.price) && (this.registeredDate == product.registeredDate);
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj) return true;
+        if(obj == null || getClass() != obj.getClass()) return false;
+
+        Product product = (Product) obj;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String thisDate = formatter.format(this.registeredDate);
+
+        return (this.id == product.id) && 
+            Objects.equals(this.name, product.name) && 
+            (this.price == product.price) && 
+            Objects.equals(thisDate, product.registeredDate.toString()) &&
+            Objects.equals(this.order, product.order);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, price, registeredDate, order);
+    }
+
+    @Override
+    public String toString() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String thisDate = formatter.format(this.registeredDate);
+        
+        return "id=" + this.id + 
+            ", name=" + this.name + 
+            ", price=" + this.price + 
+            ", registeredDate=" + thisDate + 
+            ", order=" + this.order;
     }
 }
