@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.raonpark.jpa.entity.member.Member;
 import com.raonpark.jpa.entity.member.MemberType;
@@ -12,7 +13,8 @@ import com.raonpark.jpa.entity.product.Product;
 import com.raonpark.jpa.repository.ProductRepository;
 import com.raonpark.jpa.service.ProductService;
 
-@Service
+@Service("productService")
+@Transactional
 public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
 
