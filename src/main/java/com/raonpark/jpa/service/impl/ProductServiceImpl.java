@@ -35,6 +35,12 @@ public class ProductServiceImpl implements ProductService {
     public Product getProductByName(Seller seller, String name) {
         Optional<Product> product = productRepository.findByName(name);
         
+        if(product.isPresent()) {
+            Product resultProduct = product.get();
+            resultProduct.getSellers().add(seller);
+            return resultProduct;
+        }
+
         return product.get();
     }
     
